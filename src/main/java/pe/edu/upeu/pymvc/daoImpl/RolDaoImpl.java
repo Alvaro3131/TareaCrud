@@ -95,7 +95,7 @@ public class RolDaoImpl implements RolDao {
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
-			rs = ps.executeQuery();
+			rs = ps.executeQuery(SQL);
 			while(rs.next()) {
 				Rol r = new Rol();
 				r.setIdrol(rs.getInt("ID_ROL"));
