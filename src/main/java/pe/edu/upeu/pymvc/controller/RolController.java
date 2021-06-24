@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 
 import pe.edu.upeu.pymvc.dao.RolDao;
 import pe.edu.upeu.pymvc.daoImpl.RolDaoImpl;
+import pe.edu.upeu.pymvc.model.Rol;
 
 /**
  * Servlet implementation class RolController
@@ -43,7 +44,7 @@ public class RolController extends HttpServlet {
 				out.println(gson.toJson(rdao.readAll()));
 			break;
 		case 2:
-
+			out.println(gson.toJson(rdao.create(new Rol(request.getParameter("rol")))));
 			break;
 		case 3:
 
