@@ -9,15 +9,16 @@ function listar(){
 		var x= JSON.parse(data);
 		$("#tablita tbody tr").remove();
 		for(var i=0;i<x.length;i++){
-			$("#tablita").append("<tr><td>"+(i+1)+"</td><td>"+x[i].idrol+"</td><td>"+x[i].nomrol+"</td><td><a href='#' onclick='editar("+x[i].idrol+")'><i class='far fa-edit'></i></a></td><td><a href='#' onclick='eliminar("+x[i].idrol+")'><i class='fas fa-trash-alt'></i></a></td></tr>");
+			$("#tablita").append("<tr><td>"+(i+1)+"</td><td>"+x[i].idproducto+"</td><td>"+x[i].nombre+"</td><td>"+x[i].precio+"</td><td>"+x[i].cantidad+"</td><td><a href='#' onclick='editar("+x[i].idproducto+")'><i class='far fa-edit'></i></a></td><td><a href='#' onclick='eliminar("+x[i].idproducto+")'><i class='fas fa-trash-alt'></i></a></td></tr>");
 		}
 	});
 }
 //registrar y editar rol
 $("#boton2").click(function(){
 	var idr = $("#id").val();
+	
 	if(idr==0){
-	var param = {"rol":$("#nomrol").val(), "opc":2};
+	var param = {"nombre":$("#nombre").val(),"precio":$("#precio").val(),"cantidad":$("#cantidad").val(), "opc":2};
 	$.ajax({
 		beforeSend: function(){
 			$('#resultado').html('Esperando...!');
@@ -36,11 +37,11 @@ $("#boton2").click(function(){
 		},
 		complete: function (jqXHR, estado){
 			console.log(estado)
-		}		
+		}				
 	});
 	}else{
-		alert($("#id").val()+"/"+$("#nomrol").val());
-		$.post("rc",{"id":$("#id").val(),"rol":$("#nomrol").val(),"opc":4},function (data) {
+		alert($("#id").val()+"/"+$("#nombre").val());
+		$.post("rc",{"id":$("#id").val(),"nombre":$("#nombre").val(),"precio":$("#precio").val(),"cantidad":$("#cantidad").val(),"opc":4},function (data) {
 		listar();
 		limpiar();	
     });
@@ -48,11 +49,14 @@ $("#boton2").click(function(){
 });
 
 function editar(id){
+alert(id);
 	$("#boton2").html("Editar");
 	$.get("rc",{"id":id,"opc":3},function (data) {
 		var x = JSON.parse(data);
-        $("#nomrol").val(x.nomrol)
-        $("#id").val(x.idrol);
+        $("#nombre").val(x.nombre)
+        $("#precio").val(x.precio)
+        $("#cantidad").val(x.cantidad)
+        $("#id").val(x.idproducto);
     });
 }
 function eliminar(id){
@@ -61,9 +65,11 @@ function eliminar(id){
     });
 }
 function limpiar(){
-	$("#nomrol").val("");
+	$("#nombre").val("");
+	$("#precio").val("");
+	$("#cantidad").val("");
 	$("#id").val(0);
-	$("#nomrol").focus();
+	$("#nombre").focus();
 	$("#id").val(0);
 	$("#boton2").html("Crear");
 }

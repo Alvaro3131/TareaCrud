@@ -40,23 +40,30 @@ public class RolController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		int opcion = Integer.parseInt(request.getParameter("opc"));//opc='1'
 		switch (opcion) {
-		case 1://todos los roles
+		case 1://todos los productos
 				out.println(gson.toJson(rdao.readAll()));
 			break;
 		case 2://guardar
-			out.println(gson.toJson(rdao.create(new Rol(request.getParameter("rol")))));
+			String x=request.getParameter("nombre");
+			double p=Double.parseDouble(request.getParameter("precio"));
+			int q=Integer.parseInt(request.getParameter("cantidad"));
+			System.out.println(x);
+			out.println(gson.toJson(rdao.create(new Rol(x,p,q))));
 			break;
 		case 3://read
 			out.println(gson.toJson(rdao.read(Integer.parseInt(request.getParameter("id")))));
 			break;
 		case 4://modificar
 			Rol r = new Rol();
-			r.setIdrol(Integer.parseInt(request.getParameter("id")));
-			r.setNomrol(request.getParameter("rol"));
+			r.setIdproducto(Integer.parseInt(request.getParameter("id")));
+			r.setNombre(request.getParameter("nombre"));
+			r.setPrecio(Double.parseDouble(request.getParameter("precio")));
+			r.setCantidad(Integer.parseInt(request.getParameter("cantidad")));
 			out.println(gson.toJson(rdao.update(r)));
 			break;
 		case 5://eliminar
-			out.println(gson.toJson(rdao.delete(Integer.parseInt(request.getParameter("id")))));
+			int id=Integer.parseInt(request.getParameter("id"));
+			out.println(gson.toJson(rdao.delete(id)));
 			break;
 		default:
 			break;

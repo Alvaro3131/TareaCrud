@@ -17,11 +17,13 @@ public class RolDaoImpl implements RolDao {
 	@Override
 	public int create(Rol r) {
 		int x = 0;
-		String SQL = "insert into rol (id_rol, nomrol) values(null, ?)";
+		String SQL = "insert into producto (idproducto, nombre, precio, cantidad) values(null, ?, ?, ?)";
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
-			ps.setString(1, r.getNomrol());
+			ps.setString(1, r.getNombre());
+			ps.setDouble(2, r.getPrecio());
+			ps.setInt(3, r.getCantidad());
 			x = ps.executeUpdate();
 			System.out.println(x);
 		} catch (Exception e) {
@@ -35,12 +37,14 @@ public class RolDaoImpl implements RolDao {
 	public int update(Rol r) {
 		// TODO Auto-generated method stub
 		int x = 0;
-		String SQL = "update rol set nomrol = ? where id_rol = ?";
+		String SQL = "update producto set nombre = ?, precio = ?, cantidad = ? where idproducto = ?";
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
-			ps.setString(1, r.getNomrol());
-			ps.setInt(2, r.getIdrol());
+			ps.setString(1, r.getNombre());
+			ps.setDouble(2, r.getPrecio());
+			ps.setInt(3, r.getCantidad());
+			ps.setInt(4, r.getIdproducto());
 			x = ps.executeUpdate();
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -53,15 +57,17 @@ public class RolDaoImpl implements RolDao {
 	public Rol read(int id) {
 		// TODO Auto-generated method stub
 		Rol a = new Rol();
-		String SQL = "select *from rol where id_rol=?";
+		String SQL = "select *from producto where idproducto = ? ";
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
 			ps.setInt(1, id);
 			rs = ps.executeQuery();
 			while (rs.next()) {				
-				a.setIdrol(rs.getInt("id_rol"));
-				a.setNomrol(rs.getString("nomrol"));
+				a.setIdproducto(rs.getInt("idproducto"));
+				a.setNombre(rs.getString("nombre"));
+				a.setPrecio(rs.getDouble("precio"));
+				a.setCantidad(rs.getInt("cantidad"));
 			}
 
 		} catch (Exception e) {
@@ -74,7 +80,7 @@ public class RolDaoImpl implements RolDao {
 	@Override
 	public int delete(int id) {
 		int x = 0;
-		String SQL = "delete from rol where id_rol=?";
+		String SQL = "delete from producto where idproducto = ?";
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
@@ -91,15 +97,17 @@ public class RolDaoImpl implements RolDao {
 	public List<Rol> readAll() {
 		// TODO Auto-generated method stub
 		List<Rol> lista = new ArrayList<>();
-		String SQL = "select *from rol";
+		String SQL = "select *from producto";
 		try {
 			cx = Conexion.getConexion();
 			ps = cx.prepareStatement(SQL);
 			rs = ps.executeQuery(SQL);
 			while(rs.next()) {
 				Rol r = new Rol();
-				r.setIdrol(rs.getInt("ID_ROL"));
-				r.setNomrol(rs.getString("NOMROL"));
+				r.setIdproducto(rs.getInt("idproducto"));
+				r.setNombre(rs.getString("nombre"));
+				r.setPrecio(rs.getDouble("precio"));
+				r.setCantidad(rs.getInt("cantidad"));
 				lista.add(r);
 			}
 		} catch (Exception e) {
