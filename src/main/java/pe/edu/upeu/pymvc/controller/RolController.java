@@ -40,19 +40,24 @@ public class RolController extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		int opcion = Integer.parseInt(request.getParameter("opc"));//opc='1'
 		switch (opcion) {
-		case 1:
+		case 1://todos los roles
 				out.println(gson.toJson(rdao.readAll()));
 			break;
-		case 2:
+		case 2://guardar
 			out.println(gson.toJson(rdao.create(new Rol(request.getParameter("rol")))));
 			break;
-		case 3:
-
+		case 3://read
+			out.println(gson.toJson(rdao.read(Integer.parseInt(request.getParameter("id")))));
 			break;
-		case 4:
-
+		case 4://modificar
+			Rol r = new Rol();
+			r.setIdrol(Integer.parseInt(request.getParameter("id")));
+			r.setNomrol(request.getParameter("rol"));
+			out.println(gson.toJson(rdao.update(r)));
 			break;
-
+		case 5://eliminar
+			out.println(gson.toJson(rdao.delete(Integer.parseInt(request.getParameter("id")))));
+			break;
 		default:
 			break;
 		}
